@@ -40,7 +40,7 @@ def hasSpecial(mdp1string):
 
 #verifie si toutes contraintes sont respectées et renvoie message d'erreur
 def allTrue(mdp1string):
-    errorFont = tkFont.Font(family="Arial",size=11,weight="bold")
+    
     #creation de 5 variables qui sont représentées par les fonctions 
     hasCases = hasUpperLower(mdp1string)
     hasNumbers = hasNum(mdp1string)
@@ -52,16 +52,16 @@ def allTrue(mdp1string):
     else:
         #on verifie si toutes les variables sont vraies puis on affiche un message d'erreur en fonction de ce qui n'est pas vérifié
         if not hasCases:
-            error1Label= tk.Label(frame, text="\u2757 mot de passe doit contenir majuscules et minuscules", fg = "red", font=errorFont, bg="#fff")
+            
             error1Label.place(relx=0.01, rely=0.85)
         if not hasNumbers:
-            error2Label= tk.Label(frame, text="\u2757 mot de masse doit contenir des nombres", fg = "red", font=errorFont, bg="#fff")
+            
             error2Label.place(relx=0.01, rely=0.91)
         if not hasEnoughChars:
-            error3Label= tk.Label(frame, text="\u2757 mot de passe doit contenir 8 caractères au minimum", fg = "red", font=errorFont, bg="#fff")
+            
             error3Label.place(relx=0.5, rely=0.85)
         if not hasSpecialChars:
-            error4Label= tk.Label(frame, text="\u2757 mot de passe doit contenir des caractères spéciaux", fg = "red", font=errorFont, bg="#fff")
+            
             error4Label.place(relx=0.5, rely=0.91)
         return False
 
@@ -70,45 +70,60 @@ def validateCheck(mdp1, mdp2):
     mdp1string = mdp1.get()
     #variable mdp2string est = a ce que l'on a mis dans la boite texte mdp2
     mdp2string = mdp2.get()
-    
+    error1Label.place_forget()
+    error2Label.place_forget()
+    error3Label.place_forget()
+    error4Label.place_forget()
+    SuccesspassLabel.place_forget()
+    FailpassLabel.place_forget()
     if allTrue(mdp1string):
-        singleReturnFont = tkFont.Font(family="Arial",size=18,weight="bold")
         if mdp1string == mdp2string:
             #affiche du texte dans la deuxieme boite qui dit que les codes sont les memes et qu'ils verifient toutes les contraintes
-            SuccesspassLabel= tk.Label(frame, text="Les mots de passe sont conformes et identiques", fg = "#60b91f", bg="#fff", font=singleReturnFont)
-            SuccesspassLabel.place(relx=0.1, rely=0.88)       
+            SuccesspassLabel.place(relx=0.21, rely=0.88)       
             return True
         else:
             #les codes verifient les contraintes mais ne sont pas les mêmes
-            FailpassLabel= tk.Label(frame, text="Les mots de passe sont conformes mais différents", fg = "red", bg="#fff", font=singleReturnFont)
-            FailpassLabel.place(relx=0.1, rely=0.88)
+            FailpassLabel.place(relx=0.19, rely=0.88)
             return False
 
-def clean():
-    refreshLabel = tk.Label(frame, bg="#fff")
-    refreshLabel.place(relx=0,rely=0.83, relwidth=1,relheight=0.08)
+
 
 HEIGHT = 700
 WIDTH = 1000
+
 box = tk.Tk()
 box.title("Password verification")
-
 canvas = tk.Canvas(box, height=HEIGHT, width=WIDTH)
 canvas.pack()
 
 frame = tk.Frame(box, bg='#fff')
 frame.place(relx=0.1, rely=0.1, relwidth=0.8, relheight=0.8)
 
-titleFont = tkFont.Font(family="Arial", size=26, weight="bold")
+#fonts
+titleFont = tkFont.Font(family="Calibri", size=28, weight="bold")
+subtitleFont=tkFont.Font(family="Calibri", size=13, weight="bold")
+entryLabelFont = tkFont.Font(family="Calibri", size=16, weight="bold")
+entryFont = tkFont.Font(family="Calibri", size=25, weight="bold")
+checkFont = tkFont.Font(family="Calibri", size=16, weight="bold")
+errorFont = tkFont.Font(family="Calibri",size=11,weight="bold")
+singleReturnFont = tkFont.Font(family="Calibri",size=18,weight="bold")
+
+#error and success labels, used in functions
+error1Label= tk.Label(frame, text="\u2757 mot de passe doit contenir majuscules et minuscules", fg = "red", font=errorFont, bg="#fff")
+error2Label= tk.Label(frame, text="\u2757 mot de masse doit contenir des nombres", fg = "red", font=errorFont, bg="#fff")
+error3Label= tk.Label(frame, text="\u2757 mot de passe doit contenir 8 caractères au minimum", fg = "red", font=errorFont, bg="#fff")
+error4Label= tk.Label(frame, text="\u2757 mot de passe doit contenir des caractères spéciaux", fg = "red", font=errorFont, bg="#fff")
+SuccesspassLabel= tk.Label(frame, text="Les mots de passe sont conformes et identiques", fg = "#60b91f", bg="#fff", font=singleReturnFont)
+FailpassLabel= tk.Label(frame, text="Les mots de passe sont conformes mais différents", fg = "red", bg="#fff", font=singleReturnFont)
+
 titre = tk.Label(frame, text="Password Verification", font=titleFont, bg="#fff",fg ="#000")
-titre.place(relx=0.3, rely=0.05)
+titre.place(relx=0.29, rely=0.05)
 
-subtitleFont=tkFont.Font(family="Arial", size=13, weight="bold")
-subtitle=tk.Label(frame, text="Vérifiez si votre mot de passe remplit nos critères.",font=subtitleFont, bg="#fff", fg="#707173")
-subtitle.place(relx=0.25, rely=0.18)
 
-entryLabelFont = tkFont.Font(family="Arial", size=14, weight="bold")
-entryFont = tkFont.Font(family="Arial", size=25, weight="bold")
+subtitle=tk.Label(frame, text="Vérifiez si votre mot de passe remplit nos critères de sécurité.",font=subtitleFont, bg="#fff", fg="#707173")
+subtitle.place(relx=0.22, rely=0.18)
+
+
 mdp1Label= tk.Label(frame, text="Nouveau mot de passe", bg='#fff', fg="#000", font=entryLabelFont)
 mdp1Label.place(relx=0.2, rely=0.3)
 mdp1 = tk.StringVar()
@@ -122,9 +137,9 @@ mdp2Entry = tk.Entry(frame, textvariable=mdp2, show='\u2022',relief="groove", bo
 mdp2Entry.place(relx=0.2, rely=0.57, relwidth=0.6, relheight=0.12)
 
 _validateCheck = partial(validateCheck, mdp1, mdp2)
-cleanUp = clean()
+
 #crée un bouton qui execute ValidateCheck quand cliqué
-checkFont = tkFont.Font(family="Arial", size=16, weight="bold")
-CheckButton = tk.Button(frame, text="Valider", command=lambda:[clean(), validateCheck(mdp1, mdp2)], cursor ="hand2", bg="#008952", font=checkFont, fg="#fff")
+#cleanButton=tk.Button(frame, text="clean",command=refreshLabel()).place(relx=0.9, rely=0.5)
+CheckButton = tk.Button(frame, text="Valider", command=_validateCheck, cursor ="hand2", bg="#008952", font=checkFont, fg="#fff")
 CheckButton.place(relx=0.35, rely=0.75, relwidth=0.3, relheight=0.08)
 box.mainloop()
